@@ -80,7 +80,10 @@ public class Scanner {
             case '/' -> {
                 if(match('/')){
                     // case of comment. keep advancing until EOL
-                    while(isAtEnd() && peek() != '\n') advance();
+                    while(!isAtEnd() && peek() != '\n') advance();
+                }
+                else if(match('*')){
+                    blockComment();
                 }
                 else addToken(SLASH);
             }
@@ -97,6 +100,23 @@ public class Scanner {
                 }
             }
         }
+    }
+
+    private void blockComment() {
+        // case of block comment, scan until "*/" is found
+        while(!isAtEnd() && !endOfBlockComment()) {
+            advance();
+        }
+        if(isAtEnd()) Lox.error(line, "Unterminated block comment");
+        else{
+            advance(); // skip '*'
+            advance(); // skip '/'
+        }
+    }
+
+    private boolean endOfBlockComment() {
+        if(peek() != '*') return false;
+        else return peekNext() == '/';
     }
 
     private void identifier() {
