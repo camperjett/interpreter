@@ -44,7 +44,12 @@ public class AstPrinter implements Expr.Visitor<String>{
                 new Token(TokenType.STAR, "*", null, 1),
                 new Expr.Grouping(
                         new Expr.Literal(45.67)));
+        // two ways to invoke:
+        // first is to define a function in AstPrinter to do it
         System.out.println(new AstPrinter().print(expression));
+        // second is to call accept() from expression
+        //  System.out.println(expression.accept(new AstPrinter()));
+
     }
 
 }
