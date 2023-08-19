@@ -16,6 +16,9 @@ public class ReversePolish implements Expr.Visitor<String> {
     }
 
     @Override
+    public String visitTernary(Expr.Ternary ternary){ return util(ternary.expr1) + " " + util(ternary.expr2) + " " + util(ternary.expr3) + " " + "ternary";}
+
+    @Override
     public String visitUnary(Expr.Unary unary) {
         return util(unary.right) + " " + unary.operator;
     }

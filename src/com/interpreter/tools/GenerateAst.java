@@ -39,6 +39,7 @@ public class GenerateAst {
         defineAst(outputDir, "Expr", Arrays.asList(
                 "Binary     :   Expr left, Token operator, Expr right",
                 "Grouping   :   Expr expression",
+                "Ternary    :   Expr expr1, Expr expr2, Expr expr3",
                 "Unary      :   Token operator, Expr right",
                 "Literal    :   Object value"
         ));

@@ -5,6 +5,18 @@ import java.util.List;
 import static com.interpreter.lox.TokenType.*;
 
 public class Parser {
+    /**
+     * expression     → comma ;
+     * comma          → equality ("," equality)*;
+     * equality       → comparison ( ( "!=" | "==" ) comparison )* ;
+     * comparison     → term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
+     * term           → factor ( ( "-" | "+" ) factor )* ;
+     * factor         → unary ( ( "/" | "*" ) unary )* ;
+     * unary          → ( "!" | "-" ) unary
+     *                | primary ;
+     * primary        → NUMBER | STRING | "true" | "false" | "nil"
+     *                | "(" expression ")" | "?" expression ":";
+     * */
 
     private static class ParseError extends RuntimeException{
 
@@ -16,7 +28,7 @@ public class Parser {
         this.tokens = tokens;
     }
 
-    Expr Parse(){
+    Expr parse(){
         try{
             return expression();
         } catch (ParseError error){
@@ -29,8 +41,26 @@ public class Parser {
     }
 
     private Expr expression(){
-        return equality();
+        Expr expr = comma();
+        if(match(QUERY)){
+            Expr expr2 = expression();
+            consume(COLON, "Expect : after expression");
+            Expr expr3 = expression();
+            expr = new Expr.Ternary(expr, expr2, expr3);
+        }
+        return expr;
     }
+
+    private Expr comma() {
+        Expr expr = equality();
+        while(match(COMMA)){
+            Token Operator = previous();
+            Expr right = equality();
+            expr = new Expr.Binary(expr, Operator, right);
+        }
+        return expr;
+    }
+
 
     private Expr equality() {
         Expr expr = comparison();

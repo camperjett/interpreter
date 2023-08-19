@@ -4,6 +4,7 @@ abstract class Expr {
     interface Visitor<R> {
         R visitBinary(Binary binary);
         R visitGrouping(Grouping grouping);
+        R visitTernary(Ternary ternary);
         R visitUnary(Unary unary);
         R visitLiteral(Literal literal);
     }
@@ -31,6 +32,18 @@ abstract class Expr {
             return visitor.visitGrouping(this);
         }
         final Expr expression;
+    }
+    static class Ternary extends Expr {
+        Ternary(Expr expr1, Expr expr2, Expr expr3){
+            this.expr1 = expr1;
+            this.expr2 = expr2;
+            this.expr3 = expr3;
+        }
+        @Override
+        <R> R accept(Visitor<R> visitor){ return visitor.visitTernary(this); }
+        final Expr expr1;
+        final Expr expr2;
+        final Expr expr3;
     }
 
     static class Unary extends Expr {
