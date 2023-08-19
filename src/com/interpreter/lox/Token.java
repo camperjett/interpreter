@@ -1,5 +1,12 @@
 package com.interpreter.lox;
-
+/*
+* package-private
+* Default. When we don't use any keyword explicitly, Java will set a
+* default access to a given class, method or property. The default access
+*  modifier is also called package-private, which means that all members
+*  are visible within the same package but aren't accessible from other
+*  packages: package com.
+* */
 class Token {
     final String lexeme;
     final int line;
