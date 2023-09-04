@@ -6,8 +6,8 @@ import static com.interpreter.lox.TokenType.*;
 
 public class Parser {
     /**
-     * expression     → comma ;
-     * comma          → equality ("," equality)*;
+     * expression     → comma | expression "?" expression ":" expression;
+     * comma          → equality ( "," equality )*;
      * equality       → comparison ( ( "!=" | "==" ) comparison )* ;
      * comparison     → term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
      * term           → factor ( ( "-" | "+" ) factor )* ;
@@ -15,7 +15,7 @@ public class Parser {
      * unary          → ( "!" | "-" ) unary
      *                | primary ;
      * primary        → NUMBER | STRING | "true" | "false" | "nil"
-     *                | "(" expression ")" | "?" expression ":";
+     *                | "(" expression ")";
      * */
 
     private static class ParseError extends RuntimeException{
